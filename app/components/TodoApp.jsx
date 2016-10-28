@@ -4,6 +4,8 @@ let TodoList = require('TodoList');
 let AddTodo = require('AddTodo');
 let TodoSearch = require('TodoSearch');
 
+let uuid = require('node-uuid');
+
 let TodoApp = React.createClass({
   getInitialState: function() {
     return {
@@ -11,20 +13,24 @@ let TodoApp = React.createClass({
       searchText: '',
       todos: [
         {
-          id: 1,
-          text: 'Walk the dog'
+          id: uuid(),
+          text: 'Walk the dog',
+          completed: false
         },
         {
-          id: 2,
-          text: 'Clean the yard'
+          id: uuid(),
+          text: 'Clean the yard',
+          completed: true
         },
         {
-          id: 3,
-          text: 'Eat a dick'
+          id: uuid(),
+          text: 'Eat a dick',
+          completed: true
         },
         {
-          id: 4,
-          text: 'Lick some balls'
+          id: uuid(),
+          text: 'Lick some balls',
+          completed: false
         }
       ]
     };
@@ -35,11 +41,29 @@ let TodoApp = React.createClass({
       searchText: searchText.toLowerCase
     });
   },
-  _handleAddTodo: function(text) {
-    alert(text);
-    // this.setState({
+  _handleToggle: function(id) {
+    let updatedTodos = this.state.todos.map((todo)=> {
+      if(todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
 
-    // })
+    this.setState({
+      todos: updatedTodos
+    });
+  },
+  _handleAddTodo: function(text) {
+    this.setState({
+      todos: [
+        ...this.state.todos,
+        {
+          id: uuid(),
+          text: text,
+          completed: false
+        }
+      ]
+    })
   },
   render: function() {
     let {todos} = this.state;
@@ -49,7 +73,7 @@ let TodoApp = React.createClass({
           <div className="column small-centered medium-6 large-4">
             <h1 className="page-title">Todo App</h1>
             <TodoSearch onSearch={this._handleSearch}/>
-            <TodoList todos={todos}/>
+            <TodoList todos={todos} onToggle={this._handleToggle}/>
             <AddTodo onAddTodo={this._handleAddTodo}/>
           </div>
         </div>
