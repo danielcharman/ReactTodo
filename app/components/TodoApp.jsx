@@ -1,39 +1,21 @@
 let React = require('react');
+let uuid = require('node-uuid');
 
 let TodoList = require('TodoList');
 let AddTodo = require('AddTodo');
 let TodoSearch = require('TodoSearch');
-
-let uuid = require('node-uuid');
+let TodoAPI = require('TodoAPI');
 
 let TodoApp = React.createClass({
   getInitialState: function() {
     return {
       showCompleted: false,
       searchText: '',
-      todos: [
-        {
-          id: uuid(),
-          text: 'Walk the dog',
-          completed: false
-        },
-        {
-          id: uuid(),
-          text: 'Clean the yard',
-          completed: true
-        },
-        {
-          id: uuid(),
-          text: 'Eat a dick',
-          completed: true
-        },
-        {
-          id: uuid(),
-          text: 'Lick some balls',
-          completed: false
-        }
-      ]
+      todos: TodoAPI.getTodos()
     };
+  },
+  componentDidUpdate: function() {
+    TodoAPI.setTodos(this.state.todos);
   },
   _handleSearch: function(showCompleted, searchText) {
     this.setState({
