@@ -20,7 +20,7 @@ let TodoApp = React.createClass({
   _handleSearch: function(showCompleted, searchText) {
     this.setState({
       showCompleted: showCompleted,
-      searchText: searchText.toLowerCase
+      searchText: searchText.toLowerCase()
     });
   },
   _handleToggle: function(id) {
