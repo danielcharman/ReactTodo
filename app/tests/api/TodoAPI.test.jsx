@@ -60,4 +60,35 @@ describe('TodoAPI', () => {
     });
   });
 
+  describe('filteredTodos', () => {
+    let todos = [
+      {
+        id: 1,
+        text: 'Some thext here',
+        completed: true
+      },
+      {
+        id: 2,
+        text: 'Other thext here',
+        completed: false
+      },
+      {
+        id: 3,
+        text: 'Yo bitch',
+        completed: true
+      }
+    ];
+
+    it('should return all items if showCompleted is true', () => {
+      let filteredTodos = TodoAPI.filterTodos(todos, true, '');
+      expect(filteredTodos.length).toBe(3);
+    });
+
+    it('should return non completed todos when showCompleted is false', () => {
+      let filteredTodos = TodoAPI.filterTodos(todos, false, '');
+      expect(filteredTodos.length).toBe(1);
+    });
+
+  });
+
 });
